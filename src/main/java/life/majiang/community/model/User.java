@@ -4,6 +4,7 @@ import lombok.Data;
 
 /**
  * @author a123
+ * 对应数据库的表头
  */
 @Data
 public class User {
