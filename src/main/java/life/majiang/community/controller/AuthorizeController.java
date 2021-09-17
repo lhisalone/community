@@ -47,6 +47,14 @@ public class AuthorizeController {
     @Autowired
     private UserMapper userMapper;
 
+    /**
+     * @GetMapping会获取localhost：8777/callback后的参数
+     * @param code
+     * @param state
+     * @param request
+     * @param response
+     * @return
+     */
     @GetMapping("/callback")
     public String callback(@RequestParam(name="code") String code,
                            @RequestParam(name="state") String state,
