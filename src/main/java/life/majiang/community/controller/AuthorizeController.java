@@ -86,6 +86,8 @@ public class AuthorizeController {
             //System.currentTimeMillis()当时的时间 包括秒
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
+            //将获取GitHub的头像url赋值给user
+            user.setAvatarUrl(githubUser.getAvatar_url());
             //插入数据库中
             userMapper.insert(user);
             //向服务器发送cookie key为token value为刚刚创建的随机token
