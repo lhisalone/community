@@ -48,12 +48,12 @@ public class AuthorizeController {
     private UserMapper userMapper;
 
     /**
-     * @GetMapping会获取localhost：8777/callback后的参数
-     * @param code
-     * @param state
-     * @param request
-     * @param response
-     * @return
+     * @GetMapping 会获取localhost：8777/callback后的参数
+     * @param code 接收从GitHub返回的code
+     * @param state 接收从GitHub返回的state
+     * @param request 暂时没用
+     * @param response 将服务器发送cookie
+     * @return 重定向到首页
      */
     @GetMapping("/callback")
     public String callback(@RequestParam(name="code") String code,

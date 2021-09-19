@@ -33,9 +33,9 @@ public class PublishController {
      * 并把问题存入数据库中
      *
      * @param title       对应 publish.html中submit点击后中name为title的数据
-     * @param description
-     * @param tag
-     * @return
+     * @param description 对应 publish,html中from表单中的description
+     * @param tag         对应 表单中的标签tag
+     * @return            返回到发布问题页面
      */
     @PostMapping("/publish")
     public String doPublish(
@@ -45,9 +45,11 @@ public class PublishController {
             HttpServletRequest request,
             Model model
     ) {
+        //model返回数据到页面
         model.addAttribute("title",title);
         model.addAttribute("description",description);
         model.addAttribute("tag",tag);
+        //根据title的内容返回到publish页面信息 提示错误
         if (title == null || "".equals(title)) {
             model.addAttribute("error","标题不能为空");
             return "publish";

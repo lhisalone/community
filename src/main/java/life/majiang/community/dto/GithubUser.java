@@ -4,6 +4,7 @@ import lombok.Data;
 
 /**
  * @author a123
+ *
  */
 @Data
 public class GithubUser {

@@ -25,4 +25,12 @@ public interface UserMapper {
      */
     @Select("select * from user where token=#{token}")
     User findByToken(@Param("token") String token);
+
+    /**
+     * 根据ID查找用户
+     * @param id
+     * @return
+     */
+    @Select("select * from user where id=#{id}")
+    User findById(@Param("id")Integer id);
 }
