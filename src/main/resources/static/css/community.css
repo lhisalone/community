@@ -23,3 +23,16 @@ div.main{
     font-weight: normal;
     color: #999;
 }
+/*个人中心右侧列表的位置*/
+.profile .section{
+    margin-top: 15px;
+}
+
+.community-menu{
+    font-size: 13px;
+    color: #999;
+    text-decoration: none;
+}
+.community-menu:hover{
+    text-decoration: none;
+}

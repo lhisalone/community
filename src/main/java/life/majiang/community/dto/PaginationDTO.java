@@ -39,22 +39,14 @@ public class PaginationDTO {
      * 分页中的页码也要做出逻辑上的判断 当在第一页的时候 分页上还要显示出 2 ，3，4页
      * 在中间页的时候 还要显示 前面几页跟后面几页
      *
-     * @param totalCount 一共有多少问题
+     * @param totalPage  总页数
      * @param page       当前页码
-     * @param size       一页上有多少问题
      */
-    public void setPagination(Integer totalCount, Integer page, Integer size) {
+    public void setPagination(Integer totalPage, Integer page) {
         //pages显示的是当前分页上显示的页数 总共显示7页
         pages = new ArrayList<>();
-        //判断一共有多少页
-        totalPage = (totalCount % size == 0) ? (totalCount / size) : (totalCount / size + 1);
-
-        if (page < 1) {
-            page = 1;
-        }
-        if (page > totalPage) {
-            page = totalPage;
-        }
+        //将传过来的totalPage赋值给DTO中的totalPage
+        this.totalPage=totalPage;
         //将传过来的page赋值给DTO中的page
         this.page = page;
         //把当前页码添加到pages集合中
