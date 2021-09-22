@@ -2,9 +2,9 @@ package life.majiang.community.controller;
 
 import life.majiang.community.dto.AccessTokenDTO;
 import life.majiang.community.dto.GithubUser;
-import life.majiang.community.mapper.UserMapper;
 import life.majiang.community.model.User;
 import life.majiang.community.provider.GithubProvider;
+import life.majiang.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -45,7 +45,7 @@ public class AuthorizeController {
     private GithubProvider githubProvider;
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     /**
      * @GetMapping 会获取localhost：8777/callback后的参数
@@ -73,7 +73,7 @@ public class AuthorizeController {
         //根据上面获得的token 发送请求获取用户对象
         GithubUser githubUser = githubProvider.githubUser(accessToken);
         //如果得到用户不为空
-        if (githubUser != null) {
+        if (githubUser != null && githubUser.getId()!=null) {
             //创建user实例对象
             User user = new User();
             //创建随机的token
@@ -83,13 +83,10 @@ public class AuthorizeController {
             user.setName(githubUser.getName());
             //GitHub中的AccessId为String User的Id为int 需要强转
             user.setAccountId(String.valueOf(githubUser.getId()));
-            //System.currentTimeMillis()当时的时间 包括秒
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
             //将获取GitHub的头像url赋值给user
             user.setAvatarUrl(githubUser.getAvatar_url());
-            //插入数据库中
-            userMapper.insert(user);
+            //调用方法 判断当前用户是否存在 来选择create还是update
+            userService.createOrUpdate(user);
             //向服务器发送cookie key为token value为刚刚创建的随机token
             response.addCookie(new Cookie("token",token));
             //重定向回到首页
@@ -98,5 +95,25 @@ public class AuthorizeController {
             //登陆失败，重新登陆
             return "redirect:/";
         }
+    }
+
+    /**
+     * 退出登陆  主要是把客户端中的cookie和session给删除
+     * @param request
+     * @param response
+     * @return
+     */
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response){
+        //把session删除
+        request.getSession().removeAttribute("user");
+        //创建一个新的cookie 跟原有的cookie名字一样 但是value是null
+        Cookie cookie = new Cookie("token",null);
+        //设置cookie存在时间
+        cookie.setMaxAge(0);
+        //添加cookie
+        response.addCookie(cookie);
+        return "redirect:/";
     }
 }
