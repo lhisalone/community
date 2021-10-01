@@ -161,4 +161,25 @@ public class QuestionService {
         questionDTO.setUser(user);
         return questionDTO;
     }
+
+    /**
+     * 根据问题的id是否为null来判断update还是create
+     * @param question
+     */
+    public void createOrUpdate(Question question) {
+        //id不存在
+        if (question.getId()==null) {
+            //设置创建时间
+            question.setGmtCreate(System.currentTimeMillis());
+            //设置修改时间
+            question.setGmtModified(System.currentTimeMillis());
+            //创建
+            questionMapper.create(question);
+        }else {//id存在
+            //设置修改时间
+            question.setGmtModified(System.currentTimeMillis());
+            //更新
+            questionMapper.update(question);
+        }
+    }
 }

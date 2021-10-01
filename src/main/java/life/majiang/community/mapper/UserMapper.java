@@ -25,7 +25,7 @@ public interface UserMapper {
 
     /**
      * 根据ID查找用户
-     * @param id
+     * @param id 用户ID
      * @return
      */
     @Select("select * from user where id=#{id}")
@@ -33,12 +33,17 @@ public interface UserMapper {
 
     /**
      * 根据account_id查找用户
-     * @param accountId
+     * @param accountId GitHub id
      * @return
      */
     @Select("select * from user where account_id = #{accountId}")
     User findByAccountId(@Param("accountId") String accountId);
 
+    /**
+     * 更新用户的名字 token 修改时间 还有头像地址
+     * @param user
+     * @return
+     */
     @Update("update user set name= #{name},token=#{token},gmt_modified=#{gmtModified},avatar_url=#{AvatarUrl} where id = #{id}")
     User update(User user);
 }
